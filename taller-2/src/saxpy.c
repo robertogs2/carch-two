@@ -17,8 +17,7 @@ int main (){
 	y=(float*)malloc(size*sizeof(float));
 	initialize(x, 0.1);
 	initialize(y, 0.1);
-
-	for(int j=size;j>10;j-=1000000){
+	for(int j=0;j<size;j+=1000000){
 		double start_time, run_time;
 		float alpha=6.4;
 
@@ -30,6 +29,5 @@ int main (){
 
 		printf("%d:%f\n",j,run_time);
 	}
-
 	
 }	  

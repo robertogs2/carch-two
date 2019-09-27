@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
+#include <time.h> 
 
 int size = 10000000;
 float* x;
@@ -17,17 +18,19 @@ int main (){
 	y=(float*)malloc(size*sizeof(float));
 	initialize(x, 0.1);
 	initialize(y, 0.1);
+	srand(time(0));
 
-	for(int j=size;j>10;j-=1000000){
+	for(int j=0;j<size;j+=1000000){
 		double start_time, run_time;
-		float alpha=6.4;
+		float alpha=rand();
 
 		omp_set_num_threads(8);
 		start_time = omp_get_wtime();
+		int i = 0;
 		#pragma omp parallel
 		{
-			#pragma omp for
-			for(int i=0;i<j;++i){
+			#pragma omp for private(i)
+			for(i=0;i<j;++i){
 				y[i]=alpha*x[i]+y[i];
 			}
 		}
