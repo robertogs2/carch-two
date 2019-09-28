@@ -86,7 +86,7 @@ int test(){
 	return 1;
 }
 
-int processMaximun(char* buffer){
+int processMaximun(){
 	matrix2x8 m;
 	printf("Please insert 8 16 bit numbers for first row separated by something\n");
 	short* r  = (short*) &m.rows[0];
@@ -98,7 +98,7 @@ int processMaximun(char* buffer){
 	compute_max(m);
 }
 
-int processMultiplication(char* buffer){
+int processMultiplication(){
 	matrix4x4 m1;
 	matrix4x4 m2;
 	printf("Please insert first matrix separated by spaces or newlines\n");
@@ -129,22 +129,20 @@ int processMultiplication(char* buffer){
 
 
 int main(){
-	char buffer[100];
+	char c;
 	while(1){ // Menu loop
 		printf("Please enter 1 for max or 2 for matrix multiplication\n");
-	   	gets(buffer);
-	   	if(strlen(buffer) == 1){ // Match the number
-	   		int number = atoi(buffer);
-	   		if(number == 1){
-	   			processMaximun(buffer);	
-	   		}
-	   		else if(number == 2){
-	   			processMultiplication(buffer);
-	   		}
-	   		else{
-	   			printf("Number is wrong\n");
-	   		}
-	   	}
+	   	c = getc(stdin);
+   		int number = c-'0';
+   		if(number == 1){
+   			processMaximun();	
+   		}
+   		else if(number == 2){
+   			processMultiplication();
+   		}
+   		else{
+   			printf("Number is wrong\n");
+   		}
 	}
 	return 1;
 }
