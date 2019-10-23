@@ -1,4 +1,4 @@
-APP  = saxpy_par
+APP  = fourier
 SRCS  = $(APP).c
 
 run: compile upload
