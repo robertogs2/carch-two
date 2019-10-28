@@ -1,4 +1,4 @@
-APP  = fourier
+APP  = fourier_par
 SRCS  = $(APP).c
 
 run: compile upload

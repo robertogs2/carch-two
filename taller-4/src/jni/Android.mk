@@ -2,9 +2,9 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := pi_par
+LOCAL_MODULE := fourier_par
 
-LOCAL_SRC_FILES := pi_par.c 
+LOCAL_SRC_FILES := fourier_par.c 
 
 ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
     LOCAL_ARM_NEON := true

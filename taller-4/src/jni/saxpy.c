@@ -2,22 +2,24 @@
 #include <stdlib.h>
 #include <omp.h>
 
-int size = 10000000;
+#define vectors 10000000
+#define float_amount 4*vectors
+
 float* x;
 float* y;
 
 void initialize(float* x, float value){
-	for(int i=0;i<size;++i){
+	for(int i=0;i<float_amount;++i){
 		x[i]=value;
 	}
 }
 
 int main (){
-	x=(float*)malloc(size*sizeof(float));
-	y=(float*)malloc(size*sizeof(float));
+	x=(float*)malloc(float_amount*sizeof(float));
+	y=(float*)malloc(float_amount*sizeof(float));
 	initialize(x, 0.1);
 	initialize(y, 0.1);
-	for(int j=0;j<size;j+=1000000){
+	for(int j=0;j<=float_amount;j+=1000000){
 		double start_time, run_time;
 		float alpha=6.4;
 
