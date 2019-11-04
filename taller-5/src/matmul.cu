@@ -97,7 +97,7 @@ void check_equal(float* C, float* C2, int rows, int cols){
 			break;
 		}
 	}	
-	printf("Assertion end\n");
+	//printf("Assertion end\n");
 }
 
 void all(int rowsa, int colsa, int rowsb, int colsb, int thread_no_x, int thread_no_y){
@@ -111,38 +111,38 @@ void all(int rowsa, int colsa, int rowsb, int colsb, int thread_no_x, int thread
 	dim3 threadsPerBlock(thread_no_x, thread_no_y);
     dim3 blocksPerGrid(block_no_x, block_no_y);
 
-	printf("Begin\n");
+	//printf("Begin\n");
 
 	//Allocation
 	Acpu = cpu_matrix_allocation(rowsa, colsa);
 	Bcpu = cpu_matrix_allocation(rowsb, colsb);
 	Ccpu = cpu_matrix_allocation(rowsc, colsc);
 	Ccpu2 = cpu_matrix_allocation(rowsc, colsc);
-	printf("Allocated cpu\n");
+	//printf("Allocated cpu\n");
 	Agpu = gpu_matrix_allocation(Agpu, rowsa, colsa);
 	Bgpu = gpu_matrix_allocation(Bgpu, rowsb, colsb);
 	Cgpu = gpu_matrix_allocation(Cgpu, rowsc, colsc);
-	printf("Allocated gpu\n");
+	//printf("Allocated gpu\n");
 
 	// Initializes matrices
 	init_matrix(Acpu, rowsa, colsa);
 	init_matrix(Bcpu, rowsb, colsb);
 	cudaMemcpy(Agpu, Acpu, nbytesa, cudaMemcpyHostToDevice);
 	cudaMemcpy(Bgpu, Bcpu, nbytesb, cudaMemcpyHostToDevice);
-	printf("Initialized matrices\n");
+	//printf("Initialized matrices\n");
 
 	// Multiply cpu
 	clock_t start = clock();
 	matmul_cpu(Acpu, Bcpu, Ccpu, rowsa, colsa, rowsb, colsb);
 	clock_t time_cpu = clock()-start;
-	printf("Multiplied cpu\n");
+	//printf("Multiplied cpu\n");
 
 	// Multiply gpu
 	start = clock();
     matmul_kernel<<<blocksPerGrid, threadsPerBlock>>>(Agpu, Bgpu, Cgpu, rowsa, colsa, rowsb, colsb);
     cudaDeviceSynchronize();
     clock_t time_gpu = clock()-start;
-    printf("Multiplied gpu\n");
+    //printf("Multiplied gpu\n");
 
     // rowsc, colsc, b_x, b_y, gpu time, cpu time
 	printf("%d,%d,%d,%d,%f,%f\n", 
@@ -156,11 +156,15 @@ void all(int rowsa, int colsa, int rowsb, int colsb, int thread_no_x, int thread
 
 int main(int argc, char** argv){
 
+	int thread_no_x = 100; int thread_no_y = 10;
 	// Variables
-	int rowsa = 1000; int colsa = 445;
-	int rowsb = 445; int colsb = 1000;
-	int thread_no_x = 100; int thread_no_y = 10; // tx * ty < 1024!
+	for(int size = 4; size <= 10000; size+=100){
+		all(size, size, size, size, thread_no_x, thread_no_y);
+	}
+	//int rowsa = 1000; int colsa = 445;
+	//int rowsb = 445; int colsb = 1000;
+	//int thread_no_x = 100; int thread_no_y = 10; // tx * ty < 1024!
 
-	all(rowsa, colsa, rowsb, colsb, thread_no_x, thread_no_y);
+	// all(rowsa, colsa, rowsb, colsb, thread_no_x, thread_no_y);
 
 }
