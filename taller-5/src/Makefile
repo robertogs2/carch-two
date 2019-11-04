@@ -1,12 +1,12 @@
 NVCC = nvcc
 
-all: vecadd
+all: matmul
 
 %.o : %.cu
 	$(NVCC) -c $< -o $@
 
-vecadd : vecadd.o
+matmul : matmul.o
 	$(NVCC) $^ -o $@
 
 clean:
-	rm -rf *.o *.a vecadd
+	rm -rf *.o *.a matmul
